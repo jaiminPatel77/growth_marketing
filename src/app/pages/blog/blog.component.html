@@ -1,0 +1,132 @@
+<!-- Header -->
+<section class="pt-24 pb-12 bg-white dark:bg-dark-900 text-center">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-gray-900 dark:text-white mb-6">
+      Growth <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-blue-500">Insights</span>
+    </h1>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+      Tactical deep-dives, strategic frameworks, and performance marketing playbooks designed to help you scale.
+    </p>
+  </div>
+</section>
+
+<!-- Featured Post -->
+<section *ngIf="activeCategory === 'All'" class="py-8 bg-white dark:bg-dark-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="group relative rounded-3xl overflow-hidden glass border border-gray-100 dark:border-gray-800 lg:flex items-center shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+      
+      <!-- Image Half -->
+      <div class="lg:w-1/2 relative h-64 lg:h-96 overflow-hidden">
+        <img [src]="featuredPost.image" [alt]="featuredPost.title" class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent lg:hidden"></div>
+      </div>
+      
+      <!-- Content Half -->
+      <div class="lg:w-1/2 p-8 lg:p-12 relative z-10 flex flex-col justify-center bg-white/90 dark:bg-dark-800/90 lg:bg-transparent lg:dark:bg-transparent backdrop-blur-sm lg:backdrop-blur-none">
+        
+        <div class="flex items-center space-x-4 mb-4">
+          <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider rounded-full">
+            {{ featuredPost.category }}
+          </span>
+          <span class="text-gray-500 dark:text-gray-400 text-sm flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ featuredPost.readTime }}
+          </span>
+        </div>
+        
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold font-heading text-gray-900 dark:text-white mb-4 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {{ featuredPost.title }}
+        </h2>
+        
+        <p class="text-gray-600 dark:text-gray-400 mb-6 text-lg">
+          {{ featuredPost.excerpt }}
+        </p>
+        
+        <div class="flex items-center text-primary-600 dark:text-primary-400 font-semibold group-hover:underline">
+          Read Article
+          <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Filter Categories -->
+<section class="py-8 bg-white dark:bg-dark-900 sticky top-20 z-40 backdrop-blur-md bg-opacity-80 dark:bg-opacity-80 border-b border-gray-100 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto hide-scrollbar space-x-2 pb-2">
+    <button *ngFor="let cat of categories"
+            (click)="activeCategory = cat"
+            class="whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border focus:outline-none"
+            [ngClass]="activeCategory === cat ? 'bg-primary-600 text-white border-primary-600 shadow-md' : 'bg-transparent text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400'">
+      {{ cat }}
+    </button>
+  </div>
+</section>
+
+<!-- Blog Grid -->
+<section class="py-16 bg-gray-50 dark:bg-dark-900 min-h-[500px]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <div *ngFor="let post of displayedPosts" class="bg-white dark:bg-dark-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 dark:border-gray-800 transition-all duration-300 group cursor-pointer flex flex-col h-full">
+        
+        <div class="relative h-48 overflow-hidden">
+          <img [src]="post.image" [alt]="post.title" class="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute top-4 left-4">
+             <span class="px-3 py-1 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">
+                {{ post.category }}
+              </span>
+          </div>
+        </div>
+        
+        <div class="p-8 flex flex-col flex-grow">
+          <div class="text-xs text-gray-500 dark:text-gray-400 mb-3 flex items-center justify-between">
+            <span>{{ post.date }}</span>
+            <span class="flex items-center">
+               <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+               {{ post.readTime }}
+            </span>
+          </div>
+          
+          <h3 class="text-xl font-bold font-heading text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+            {{ post.title }}
+          </h3>
+          
+          <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 line-clamp-3">
+            {{ post.excerpt }}
+          </p>
+          
+          <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800 text-primary-600 dark:text-primary-400 font-semibold text-sm flex items-center group-hover:underline">
+            Read More
+            <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <!-- Empty State if filtered out -->
+    <div *ngIf="displayedPosts.length === 0" class="text-center py-20">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-dark-800 text-gray-400 mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+      </div>
+      <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-2">No posts found</h3>
+      <p class="text-gray-500 dark:text-gray-400">Check back later for new insights in this category.</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Utility class to hide scrollbar for categories filter */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

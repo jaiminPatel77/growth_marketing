@@ -4,15 +4,13 @@
       
       <!-- Logo -->
       <div class="flex-shrink-0 flex items-center cursor-pointer" routerLink="/">
-        <span class="text-2xl font-heading font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-blue-600 dark:from-primary-400 dark:to-blue-400">
-          Growth Marketing Service
-        </span>
+        <img src="assets/Logo/logo.png" alt="Growth Marketing Agency" class="h-20 w-auto">
       </div>
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-8 items-center">
         <a routerLink="/services" routerLinkActive="text-primary-600 dark:text-primary-400" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Services</a>
-        <a routerLink="/case-studies" routerLinkActive="text-primary-600 dark:text-primary-400" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Case Studies</a>
+        <a routerLink="/portfolio" routerLinkActive="text-primary-600 dark:text-primary-400" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Portfolio</a>
         <a routerLink="/about" routerLinkActive="text-primary-600 dark:text-primary-400" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">About</a>
         <a routerLink="/blog" routerLinkActive="text-primary-600 dark:text-primary-400" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Blog</a>
       </div>
@@ -41,7 +39,7 @@
   <div *ngIf="isMobileMenuOpen" class="md:hidden glass border-t border-gray-200 dark:border-gray-700">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <a routerLink="/services" (click)="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Services</a>
-      <a routerLink="/case-studies" (click)="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Case Studies</a>
+      <a routerLink="/portfolio" (click)="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Portfolio</a>
       <a routerLink="/about" (click)="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">About</a>
       <a routerLink="/blog" (click)="toggleMobileMenu()" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Blog</a>
       <a routerLink="/contact" (click)="toggleMobileMenu()" class="block px-3 py-2 mt-4 text-center rounded-md text-base font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors">Get Free Audit</a>

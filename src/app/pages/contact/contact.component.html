@@ -33,15 +33,6 @@
           </div>
         </div>
 
-        <!-- Trust Badges -->
-        <div class="mt-12 pt-8 border-t border-gray-100 dark:border-gray-800">
-          <p class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">Official Partners</p>
-          <div class="flex space-x-6 opacity-60 grayscale hover:grayscale-0 transition-opacity">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="h-6 object-contain">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="h-6 object-contain">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="AWS" class="h-6 object-contain">
-          </div>
-        </div>
       </div>
 
       <!-- Lead Form Box -->
@@ -54,40 +45,33 @@
           <p class="text-gray-600 dark:text-gray-400">One of our growth strategists will be in touch within 24 hours.</p>
         </div>
 
-        <form (submit)="submitForm($event)" class="space-y-6">
+        <form (ngSubmit)="auditForm.form.valid && submitForm()" #auditForm="ngForm" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</label>
-              <input type="text" id="firstName" required class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="Jane">
+              <input type="text" id="firstName" name="firstName" required [(ngModel)]="formData.firstName" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="Jane">
             </div>
             <div>
               <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name</label>
-              <input type="text" id="lastName" required class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="Doe">
+              <input type="text" id="lastName" name="lastName" required [(ngModel)]="formData.lastName" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="Doe">
             </div>
           </div>
           
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Work Email</label>
-            <input type="email" id="email" required class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="jane@company.com">
-          </div>
-          
-          <div>
-            <label for="company" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Company Website</label>
-            <input type="url" id="company" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="https://company.com">
-          </div>
-          
-          <div>
-            <label for="revenue" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Annual Revenue Target</label>
-            <select id="revenue" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white">
-              <option value="" disabled selected>Select an option</option>
-              <option value="under500k">Under $500k</option>
-              <option value="500k-1m">$500k - $1M</option>
-              <option value="1m-5m">$1M - $5m</option>
-              <option value="5m+">$5M+</option>
-            </select>
+            <input type="email" id="email" name="email" required email [(ngModel)]="formData.email" #email="ngModel" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" [class.border-red-500]="email.invalid && email.touched" placeholder="jane@company.com">
+            <p *ngIf="email.invalid && email.touched" class="text-red-500 text-xs mt-1">Please enter a valid work email address.</p>
           </div>
 
-          <button type="submit" [disabled]="isSubmitting" class="w-full py-4 px-8 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-primary-500/30 font-heading flex justify-center items-center">
+          <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone / Mobile Number</label>
+            <input type="tel" id="phone" name="phone" required [(ngModel)]="formData.phone" class="w-full px-4 py-3 bg-gray-50 dark:bg-dark-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dark:text-white" placeholder="+91 98765 43210">
+          </div>
+          
+          <div>
+          </div>
+          
+          <button type="submit" [disabled]="isSubmitting || auditForm.invalid" class="w-full py-4 px-8 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-primary-500/30 font-heading flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed">
             <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -103,64 +87,8 @@
   </div>
 </section>
 
-<!-- Mock Book a Call UI -->
-<section class="py-24 bg-gray-50 dark:bg-dark-800 border-b border-gray-100 dark:border-gray-800">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
-    <h2 class="text-3xl font-heading font-extrabold text-gray-900 dark:text-white mb-4">Or Book A Discovery Call Directly</h2>
-    <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Find a time on our team's calendar that works for you.</p>
-  </div>
-  
-  <div class="max-w-4xl mx-auto bg-white dark:bg-dark-900 rounded-[2rem] shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col md:flex-row">
-    <!-- Left Panel -->
-    <div class="w-full md:w-1/3 bg-gray-50 dark:bg-dark-800 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700">
-      <div class="text-gray-500 dark:text-gray-400 font-bold tracking-wider text-xs mb-2 uppercase">Growth Marketing Service Team</div>
-      <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Strategy Session</h3>
-      <div class="flex items-center text-gray-600 dark:text-gray-400 mb-2">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 30 Min
-      </div>
-      <div class="flex items-center text-gray-600 dark:text-gray-400">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Google Meet
-      </div>
-    </div>
-    
-    <!-- Right Panel (Calendar) -->
-    <div class="w-full md:w-2/3 p-8">
-      <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Select a Date & Time</h4>
-      <div class="flex items-center justify-between mb-4">
-        <span class="font-medium text-gray-800 dark:text-gray-200">November 2026</span>
-        <div class="flex space-x-2">
-          <button class="p-1 rounded-full bg-gray-100 dark:bg-dark-800 text-gray-400 hover:text-primary-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-          <button class="p-1 rounded-full bg-gray-100 dark:bg-dark-800 text-gray-400 hover:text-primary-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-        </div>
-      </div>
-      
-      <div class="grid grid-cols-7 gap-1 text-center mb-6">
-        <div class="text-xs text-gray-500 font-medium py-2">S</div>
-        <div class="text-xs text-gray-500 font-medium py-2">M</div>
-        <div class="text-xs text-gray-500 font-medium py-2">T</div>
-        <div class="text-xs text-gray-500 font-medium py-2">W</div>
-        <div class="text-xs text-gray-500 font-medium py-2">T</div>
-        <div class="text-xs text-gray-500 font-medium py-2">F</div>
-        <div class="text-xs text-gray-500 font-medium py-2">S</div>
-        
-        <!-- Empty slots -->
-        <div></div><div></div><div></div>
-        
-        <div *ngFor="let d of calendarDays">
-          <button *ngIf="d.day <= 30" 
-                  [disabled]="!d.available"
-                  [ngClass]="d.available ? 'hover:bg-primary-100 dark:hover:bg-primary-900/40 text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/10' : 'text-gray-400 dark:text-gray-600 opacity-50 cursor-not-allowed'"
-                  class="w-10 h-10 rounded-full mx-auto flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500">
-            {{ d.day }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FAQ Section -->
-<section class="py-24 bg-white dark:bg-dark-900">
+<!-- <section class="py-24 bg-white dark:bg-dark-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12">
       <h2 class="text-3xl font-heading font-extrabold text-gray-900 dark:text-white">Frequently Asked Questions</h2>
@@ -168,4 +96,4 @@
     
     <app-faq-accordion></app-faq-accordion>
   </div>
-</section>
+</section> -->

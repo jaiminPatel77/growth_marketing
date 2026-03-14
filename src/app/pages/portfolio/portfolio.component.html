@@ -1,0 +1,70 @@
+<!-- Portfolio Section -->
+<section class="relative pt-24 pb-20 bg-dark-900 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <h1 class="text-4xl md:text-6xl font-heading font-extrabold text-white mb-6 animate-slide-up">
+      Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-orange-400">Portfolio</span>
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 animate-slide-up" style="animation-delay: 0.1s;">
+      See the social media creatives we designed for our clients. From mouth-watering food shots to elegant jewellery showcases.
+    </p>
+
+    <!-- Category Filters -->
+    <div class="flex flex-wrap justify-center gap-4 mb-16 animate-fade-in" style="animation-delay: 0.2s;">
+      <button 
+        *ngFor="let cat of categories"
+        (click)="setCategory(cat)"
+        [class]="activeCategory === cat 
+          ? 'bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-600/20' 
+          : 'bg-dark-800 text-gray-400 border-gray-700 hover:border-primary-500 hover:text-white'"
+        class="px-6 py-2 rounded-full border text-sm font-bold transition-all flex items-center gap-2">
+        {{ cat }}
+        <span [class]="activeCategory === cat ? 'bg-white/20 text-white' : 'bg-gray-700 text-gray-400'" class="px-2 py-0.5 rounded-full text-xs">
+          {{ getCategoryCount(cat) }}
+        </span>
+      </button>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in" style="animation-delay: 0.3s;">
+      <div 
+        *ngFor="let item of filteredItems" 
+        (click)="openLightbox(item.image)"
+        class="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-dark-800 border border-gray-800 transition-all hover:border-primary-500/50">
+        
+        <!-- Image with Zoom Effect -->
+        <img 
+          [src]="item.image" 
+          [alt]="item.title"
+          class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-dark-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-left">
+          <span class="text-xs font-bold uppercase tracking-wider text-primary-400 mb-1">{{ item.category }}</span>
+          <h3 class="text-white font-bold text-lg leading-tight">{{ item.title }}</h3>
+          <div class="mt-4 flex items-center text-white text-sm font-medium gap-2">
+            View Project
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div 
+  *ngIf="selectedImage" 
+  class="fixed inset-0 z-[100] flex items-center justify-center bg-dark-900/95 p-4 md:p-10 animate-fade-in"
+  (click)="closeLightbox()">
+  
+  <button 
+    (click)="closeLightbox()" 
+    class="absolute top-6 right-6 text-white hover:text-primary-400 p-2 bg-dark-800 rounded-full transition-colors z-[110]">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+  </button>
+
+  <img 
+    [src]="selectedImage" 
+    class="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-zoom-in"
+    (click)="$event.stopPropagation()">
+</div>

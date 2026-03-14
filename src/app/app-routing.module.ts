@@ -8,9 +8,12 @@ import { AboutComponent } from './pages/about/about.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { ContactComponent } from './pages/contact/contact.component';
 
+import { PortfolioComponent } from './pages/portfolio/portfolio.component';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'services', component: ServicesComponent },
+  { path: 'portfolio', component: PortfolioComponent },
   { path: 'case-studies', component: CaseStudiesComponent },
   { path: 'about', component: AboutComponent },
   { path: 'blog', component: BlogComponent },

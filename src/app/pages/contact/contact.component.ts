@@ -10,27 +10,36 @@ export class ContactComponent {
   isSubmitting = false;
   isSuccess = false;
 
-  submitForm(event: Event) {
-    event.preventDefault();
+  formData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  };
+
+  submitForm() {
     this.isSubmitting = true;
     
-    // Simulate API call
+    // Construct the email body
+    const subject = `Free Growth Audit Request from ${this.formData.firstName} ${this.formData.lastName}`;
+    const body = `
+New Audit Request Details:
+-------------------------
+Name: ${this.formData.firstName} ${this.formData.lastName}
+Email: ${this.formData.email}
+Phone: ${this.formData.phone}
+    `.trim();
+
+    // The user wants to send it to growthmarketingservices1@gmail.com
+    const mailtoLink = `mailto:growthmarketingservices1@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Simulate API call and success state
     setTimeout(() => {
       this.isSubmitting = false;
       this.isSuccess = true;
-    }, 1500);
-  }
-
-  // Generate some mock calendar days
-  get calendarDays() {
-    const days = [];
-    // Just mock 35 days for a calendar grid
-    for(let i = 1; i <= 31; i++) {
-       days.push({
-         day: i,
-         available: i % 3 !== 0 && i % 7 !== 0 && i % 7 !== 6 // Random availability logic
-       });
-    }
-    return days;
+      
+      // Open the mail client
+      window.location.href = mailtoLink;
+    }, 1000);
   }
 }

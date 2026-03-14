@@ -8,10 +8,21 @@ import { Component } from '@angular/core';
 export class HomeComponent {
   
   clientLogos = [
-    { name: 'Acme Corp', src: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
-    { name: 'Global Tech', src: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg' },
-    { name: 'Innovate AI', src: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg' },
-    { name: 'CloudScale', src: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+    { name: 'Logo 1', src: 'assets/client_logos/Logo(1).png' },
+    { name: 'Logo 2', src: 'assets/client_logos/Logo(2).png' },
+    { name: 'Logo 3', src: 'assets/client_logos/Logo(3).png' },
+    { name: 'Logo 4', src: 'assets/client_logos/Logo(4).png' },
+    { name: 'Logo 6', src: 'assets/client_logos/Logo(6).png' },
+    { name: 'Logo 7', src: 'assets/client_logos/Logo(7).png' },
+    { name: 'Logo 8', src: 'assets/client_logos/Logo(8).png' },
+    { name: 'Logo 9', src: 'assets/client_logos/Logo(9).png' },
+    { name: 'Logo 10', src: 'assets/client_logos/Logo(10).png' },
+    { name: 'Logo 11', src: 'assets/client_logos/Logo(11).png' },
+    { name: 'Logo 12', src: 'assets/client_logos/Logo(12).png' },
+    { name: 'Logo 13', src: 'assets/client_logos/Logo(13).png' },
+    { name: 'Logo 14', src: 'assets/client_logos/Logo(14).png' },
+    { name: 'Logo 15', src: 'assets/client_logos/Logo(15).png' },
+    { name: 'Logo 16', src: 'assets/client_logos/Logo(16).png' },
   ];
 
   processSteps = [

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 interface PortfolioItem {
   id: number;
   title: string;
-  category: 'Food' | 'Jewellery';
   image: string;
 }
 
@@ -12,32 +12,70 @@ interface PortfolioItem {
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss']
 })
-export class PortfolioComponent {
-  categories = ['All', 'Food', 'Jewellery'];
-  activeCategory = 'All';
+export class PortfolioComponent implements OnInit {
+  portfolioItems: PortfolioItem[] = [];
   selectedImage: string | null = null;
+  isLoading = true;
+  
+  // Pagination
+  currentPage = 1;
+  pageSize = 24;
+  totalPages = 0;
+  pages: number[] = [];
 
-  portfolioItems: PortfolioItem[] = [
-    { id: 1, title: 'Gourmet Pasta Creative', category: 'Food', image: 'assets/portfolio/food/food_creative_1.png' },
-    { id: 2, title: 'Special Latte Story', category: 'Food', image: 'assets/portfolio/food/food_creative_2.png' },
-    { id: 3, title: 'Luxury Diamond Ad', category: 'Jewellery', image: 'assets/portfolio/jewellery/jewellery_creative_1.png' },
-    { id: 4, title: 'Traditional Jhumka Post', category: 'Jewellery', image: 'assets/portfolio/jewellery/jewellery_creative_2.png' }
-  ];
+  constructor(private http: HttpClient) {}
 
-  get filteredItems() {
-    return this.activeCategory === 'All' 
-      ? this.portfolioItems 
-      : this.portfolioItems.filter(item => item.category === this.activeCategory);
+  ngOnInit() {
+    this.loadImages();
   }
 
-  getCategoryCount(category: string) {
-    return category === 'All' 
-      ? this.portfolioItems.length 
-      : this.portfolioItems.filter(item => item.category === category).length;
+  loadImages() {
+    this.isLoading = true;
+    this.http.get<PortfolioItem[]>('assets/portfolio/images.json').subscribe({
+      next: (data) => {
+        this.portfolioItems = data;
+        this.calculatePagination();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading portfolio images:', error);
+        this.portfolioItems = [];
+        this.isLoading = false;
+      }
+    });
   }
 
-  setCategory(category: string) {
-    this.activeCategory = category;
+  calculatePagination() {
+    this.totalPages = Math.ceil(this.portfolioItems.length / this.pageSize);
+    this.updateVisiblePages();
+  }
+
+  updateVisiblePages() {
+    const maxVisiblePages = 5;
+    let start = Math.max(1, this.currentPage - 2);
+    let end = Math.min(this.totalPages, start + maxVisiblePages - 1);
+    
+    if (end - start + 1 < maxVisiblePages) {
+      start = Math.max(1, end - maxVisiblePages + 1);
+    }
+    
+    this.pages = [];
+    for (let i = start; i <= end; i++) {
+      this.pages.push(i);
+    }
+  }
+
+  get paginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.portfolioItems.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  setPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateVisiblePages();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   openLightbox(image: string) {

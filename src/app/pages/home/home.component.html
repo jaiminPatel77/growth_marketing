@@ -24,10 +24,13 @@
       that turn visitors into customers.
     </p>
     
-    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 animate-slide-up" style="animation-delay: 0.3s;">
-      <a routerLink="/contact" class="px-8 py-4 border border-transparent text-base font-medium rounded-full text-white bg-primary-600 hover:bg-primary-700 md:text-lg transition-all shadow-lg hover:shadow-primary-500/25 transform hover:-translate-y-1">
+    <div class="flex flex-col justify-center items-center animate-slide-up mt-8" style="animation-delay: 0.3s;">
+      <!-- <a routerLink="/contact" class="px-8 py-4 border border-transparent text-base font-medium rounded-full text-white bg-primary-600 hover:bg-primary-700 md:text-lg transition-all shadow-lg hover:shadow-primary-500/25 transform hover:-translate-y-1">
         Get Free Growth Audit
-      </a>
+      </a> -->
+      <div class="cursor-pointer max-w-md md:max-w-xl mx-auto overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] border border-gray-200 dark:border-slate-800" (click)="openTrialForm()">
+        <img src="assets/webImages/freeTrial.jpeg" alt="Free Trial Offer" class="object-cover w-full h-auto">
+      </div>
     </div>
   </div>
 </section>
@@ -68,84 +71,84 @@
       </p>
     </div>
 
-    <!-- Main Package Card -->
-    <div class="max-w-md mx-auto bg-white dark:bg-dark-900 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-1 transition-all duration-300 relative border border-gray-100 dark:border-gray-800">
-      
-      <!-- Gradient Pricing Ribbon -->
-      <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-teal-400 to-orange-500"></div>
-      
-      <!-- Value Add Badges -->
-      <div class="flex justify-between items-center px-6 pt-6 mb-2">
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400">
-          Best for Local Businesses
-        </span>
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 gap-1">
-          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg>
-          Limited slots
-        </span>
-      </div>
-
-      <div class="px-6 py-6 text-center border-b border-gray-100 dark:border-gray-800">
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Starter Growth Plan</h3>
-        <div class="flex items-end justify-center">
-          <span class="text-4xl font-extrabold text-gray-900 dark:text-white">₹3,999</span>
-          <span class="text-base font-medium text-gray-500 dark:text-gray-400 ml-1 mb-1">/ month</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+      <div *ngFor="let plan of services" 
+           [ngClass]="{
+             'ring-2 ring-primary-500 lg:scale-[1.03] shadow-2xl z-10': plan.highlighted,
+             'border border-gray-100 dark:border-gray-800/80 shadow-xl': !plan.highlighted
+           }"
+           class="relative bg-white dark:bg-dark-900 rounded-3xl overflow-hidden flex flex-col justify-between transform hover:-translate-y-1 transition-all duration-300 p-8 lg:p-10">
+        
+        <!-- Highlight/Badge -->
+        <div *ngIf="plan.badge" class="absolute top-4 right-4">
+          <span [ngClass]="{
+                  'bg-gradient-to-r from-orange-500 to-yellow-500 text-white': plan.highlighted,
+                  'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20': !plan.highlighted
+                }"
+                class="px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm">
+            {{ plan.badge }}
+          </span>
         </div>
-        <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          Perfect for small businesses who want consistent social media presence and local visibility. <br/><span class="font-medium">(Done-for-you Service)</span>
-        </p>
-      </div>
 
-      <div class="px-6 py-8 bg-gray-50 dark:bg-dark-800/20">
-        <ul class="space-y-4">
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">15 Professional Social Media Posts</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">4 Short Video Reels</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">Facebook + Instagram Page Management</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">Stories, Captions, Hashtags &amp; Branding</span>
-          </li>
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">Meta Ads Management <span class="text-sm text-gray-500">(Ad Spend Extra)</span></span>
-          </li>
-          <li class="flex items-start">
-            <svg class="flex-shrink-0 h-6 w-6 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="ml-3 text-base text-gray-700 dark:text-gray-300">Google My Business Listing Setup</span>
-          </li>
-        </ul>
+        <div>
+          <!-- Icon & Header -->
+          <div class="flex items-center gap-4 mb-6">
+            <div [ngClass]="{
+                   'bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-800': plan.highlighted,
+                   'bg-gray-100 dark:bg-dark-800 text-gray-600 dark:text-gray-400': !plan.highlighted
+                 }"
+                 class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm" 
+                 [innerHTML]="plan.icon">
+            </div>
+            <div>
+              <h3 class="text-xl font-heading font-extrabold text-gray-900 dark:text-white leading-tight">{{ plan.title }}</h3>
+              <p class="text-[10px] text-gray-400 dark:text-gray-500 font-extrabold tracking-wider uppercase mt-0.5">Monthly Package</p>
+            </div>
+          </div>
 
-        <div class="mt-8 space-y-3 md:sticky md:bottom-2">
-          <a href="https://wa.me/917203032301" target="_blank" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-500 hover:bg-green-600 transition-colors shadow-sm gap-2">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Chat on WhatsApp
+          <!-- Price -->
+          <div class="flex items-baseline gap-2 mb-4">
+            <span class="text-4xl font-extrabold text-primary-600 dark:text-primary-400">{{ plan.price }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400 font-medium">/ Month</span>
+          </div>
+
+          <!-- Description -->
+          <p class="text-sm text-gray-600 dark:text-gray-450 mb-8 leading-relaxed min-h-[40px]">
+            {{ plan.description }}
+          </p>
+
+          <!-- Divider -->
+          <div class="h-[1px] bg-gray-100 dark:bg-gray-800/80 mb-8"></div>
+
+          <!-- Features Checklist -->
+          <ul class="space-y-4 mb-8">
+            <li *ngFor="let benefit of plan.benefits" class="flex items-start">
+              <div class="flex-shrink-0 h-5 w-5 flex items-center justify-center rounded-full bg-green-50 dark:bg-green-950/30 text-green-500 dark:text-green-400 mt-0.5">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              </div>
+              <span class="ml-3 text-sm text-gray-700 dark:text-gray-300 font-medium leading-tight">{{ benefit }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="space-y-3 mt-auto">
+          <a href="https://wa.me/917203032301" target="_blank"
+             [ngClass]="{
+               'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg shadow-orange-500/25': plan.highlighted,
+               'bg-primary-600 hover:bg-primary-700 text-white shadow-md shadow-primary-600/15': !plan.highlighted
+             }"
+             class="w-full py-3.5 rounded-2xl font-bold text-center transition-all flex items-center justify-center gap-2">
+            <span>Contact Now</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
           </a>
-          <a href="tel:+917203032301" class="w-full flex items-center justify-center px-5 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-dark-800 hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a href="tel:+917203032301" 
+             class="w-full flex items-center justify-center py-3 border border-gray-300 dark:border-gray-750 text-sm font-semibold rounded-2xl text-gray-700 dark:text-gray-250 bg-white dark:bg-dark-900/50 hover:bg-gray-50 dark:hover:bg-dark-800 transition-colors gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             Call Now
           </a>
         </div>
+
       </div>
     </div>
   </div>
@@ -197,4 +200,379 @@
   <div class="w-full max-w-5xl px-4 sm:px-6 lg:px-8">
     <app-cta-banner></app-cta-banner>
   </div>
-</section>
+</section><!-- Conversational Wizard Modal -->
+<div *ngIf="isFormOpen" class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md transition-opacity duration-300">
+  
+  <div class="relative bg-white dark:bg-dark-900 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 border border-slate-100 dark:border-slate-800 animate-scale-up">
+    
+    <!-- Progress Bar -->
+    <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800">
+      <div class="h-full bg-primary-500 transition-all duration-300" [style.width.%]="(currentStep / 8) * 100"></div>
+    </div>
+
+    <!-- Header: Back & Close Buttons -->
+    <div class="flex items-center justify-between p-6 pb-2">
+      <!-- Back button -->
+      <button *ngIf="currentStep > 1 && !submitSuccess" (click)="prevStep()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors flex items-center gap-1.5 text-sm font-semibold">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        પાછળ
+      </button>
+      <div *ngIf="currentStep === 1 || submitSuccess" class="w-5"></div>
+      
+      <!-- Step Indicator -->
+      <span *ngIf="!submitSuccess" class="text-xs font-bold uppercase tracking-wider text-slate-400">Step {{ currentStep }} of 8</span>
+
+      <!-- Close button -->
+      <button (click)="closeTrialForm()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="p-8 pt-4">
+
+      <!-- Success Screen -->
+      <div *ngIf="submitSuccess" class="text-center py-8">
+        <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-500 animate-bounce">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-3 font-heading">ખૂબ ખૂબ આભાર!</h3>
+        <p class="text-slate-500 dark:text-slate-400 mb-6 text-sm">
+          તમારી વિગતો સફળતાપૂર્વક સબમિટ થઈ ગઈ છે. અમે ટૂંક સમયમાં તમારો સંપર્ક કરીશું.
+        </p>
+        <button (click)="closeTrialForm()" class="w-full py-3.5 bg-primary-500 hover:bg-primary-600 text-white rounded-2xl font-bold transition duration-200 shadow-lg shadow-primary-500/20">
+          બંધ કરો
+        </button>
+      </div>
+
+      <!-- Main Step Forms -->
+      <div *ngIf="!submitSuccess">
+        
+        <!-- Step 1: Welcome & Business Name -->
+        <div *ngIf="currentStep === 1" class="space-y-6">
+          <div class="space-y-2">
+            <span class="text-4xl">👋</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">Welcome to Growth Marketing Services</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm font-semibold">તમારા Business માટે વધુ Leads અને Sales જોઈએ છે?</p>
+          </div>
+          
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">તમારું Business Name મોકલો.</label>
+            <input type="text" [(ngModel)]="answers.businessName" name="businessName" placeholder="Business Name લખો" 
+                   class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium">
+          </div>
+
+          <button (click)="nextStep()" [disabled]="!answers.businessName.trim()" 
+                  class="w-full py-3.5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:pointer-events-none text-white rounded-xl font-bold transition shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2">
+            આગળ વધો
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- Step 2: Business Type -->
+        <div *ngIf="currentStep === 2" class="space-y-6">
+          <div class="space-y-2">
+            <span class="text-4xl">👍</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">ખૂબ સરસ</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm font-semibold">તમે કયો Business ચલાવો છો?</p>
+            <p class="text-xs text-slate-400 font-medium">(ઉદાહરણ: Salon, Restaurant, Real Estate, Coaching, Medical Store વગેરે)</p>
+          </div>
+
+          <div class="space-y-4">
+            <input type="text" [(ngModel)]="answers.businessType" name="businessType" placeholder="તમારા Business નો પ્રકાર લખો" 
+                   class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium">
+            
+            <!-- Suggestions Pills -->
+            <div class="flex flex-wrap gap-2">
+              <button *ngFor="let suggestion of businessTypeSuggestions" (click)="selectBusinessType(suggestion)" 
+                      class="px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200"
+                      [ngClass]="answers.businessType === suggestion ? 'bg-primary-500 text-white border-primary-500' : 'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-950 dark:text-slate-400 dark:border-slate-800'">
+                {{ suggestion }}
+              </button>
+            </div>
+          </div>
+
+          <button (click)="nextStep()" [disabled]="!answers.businessType.trim()" 
+                  class="w-full py-3.5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:pointer-events-none text-white rounded-xl font-bold transition shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2">
+            આગળ વધો
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- Step 3: Social Page Exists? -->
+        <div *ngIf="currentStep === 3" class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">તમારું Instagram અથવા Facebook Page બનેલું છે?</h3>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <button (click)="selectSocialPage('YES')" 
+                    class="py-6 rounded-2xl border-2 flex flex-col items-center justify-center gap-2.5 transition-all font-bold text-base duration-200 hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.hasSocialPage === 'YES' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span class="text-3xl">✅</span>
+              <span>YES</span>
+            </button>
+            <button (click)="selectSocialPage('NO')" 
+                    class="py-6 rounded-2xl border-2 flex flex-col items-center justify-center gap-2.5 transition-all font-bold text-base duration-200 hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.hasSocialPage === 'NO' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span class="text-3xl">❌</span>
+              <span>NO</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Marketing Budget -->
+        <div *ngIf="currentStep === 4" class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">હાલ Marketing માટે અંદાજે કેટલું Budget મૂકી શકો છો?</h3>
+          </div>
+
+          <div class="space-y-3">
+            <button (click)="selectBudget('1️⃣ ₹500 - ₹5000')" 
+                    class="w-full px-5 py-4 rounded-2xl border-2 flex items-center justify-between text-left transition-all duration-200 font-bold hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.marketingBudget === '1️⃣ ₹500 - ₹5000' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span>1️⃣ ₹500 - ₹5000</span>
+              <svg *ngIf="answers.marketingBudget === '1️⃣ ₹500 - ₹5000'" class="w-5 h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            </button>
+            <button (click)="selectBudget('2️⃣ ₹5000 - ₹10000')" 
+                    class="w-full px-5 py-4 rounded-2xl border-2 flex items-center justify-between text-left transition-all duration-200 font-bold hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.marketingBudget === '2️⃣ ₹5000 - ₹10000' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span>2️⃣ ₹5000 - ₹10000</span>
+              <svg *ngIf="answers.marketingBudget === '2️⃣ ₹5000 - ₹10000'" class="w-5 h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            </button>
+            <button (click)="selectBudget('3️⃣ ₹10000+')" 
+                    class="w-full px-5 py-4 rounded-2xl border-2 flex items-center justify-between text-left transition-all duration-200 font-bold hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.marketingBudget === '3️⃣ ₹10000+' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span>3️⃣ ₹10000+</span>
+              <svg *ngIf="answers.marketingBudget === '3️⃣ ₹10000+'" class="w-5 h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 5: Trial Eligible -->
+        <div *ngIf="currentStep === 5" class="space-y-6">
+          <div class="space-y-2 text-center">
+            <span class="text-5xl block animate-bounce mb-3">🚀</span>
+            <h3 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-blue-500 font-heading">Great News!</h3>
+            <p class="text-slate-800 dark:text-slate-200 font-extrabold text-base">તમારો Business Trial માટે Eligible છે.</p>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 font-semibold">શું તમે TRAIL PACKAGE વિશે માહિતી મેળવા માંગો છો?</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <button (click)="selectTrialInfo('YES')" 
+                    class="py-4 rounded-2xl bg-primary-500 hover:bg-primary-600 text-white font-bold shadow-lg shadow-primary-500/20 transition duration-200 flex items-center justify-center gap-1.5">
+              <span>હા, બતાવો</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <button (click)="selectTrialInfo('NO')" 
+                    class="py-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold transition duration-200">
+              ના, આગળ વધો
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 6: Trial Package details -->
+        <div *ngIf="currentStep === 6" class="space-y-6">
+          <div class="p-6 bg-slate-50 dark:bg-slate-950/50 rounded-2xl border border-slate-150 dark:border-slate-850 space-y-4 shadow-inner">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+              <span class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1.5 font-heading">
+                <span class="text-xl">🎯</span> 7 Days Growth Trial
+              </span>
+              <span class="text-2xl font-extrabold text-primary-500">₹399</span>
+            </div>
+            
+            <ul class="space-y-3">
+              <li class="flex items-center gap-2.5 text-slate-700 dark:text-slate-350">
+                <span class="text-emerald-500 text-sm">✅</span>
+                <span class="font-bold text-sm">1 Professional Post</span>
+              </li>
+              <li class="flex items-center gap-2.5 text-slate-700 dark:text-slate-350">
+                <span class="text-emerald-500 text-sm">✅</span>
+                <span class="font-bold text-sm">Meta Ads Setup</span>
+              </li>
+              <li class="flex items-center gap-2.5 text-slate-700 dark:text-slate-350">
+                <span class="text-emerald-500 text-sm">✅</span>
+                <span class="font-bold text-sm">7 Days Monitoring</span>
+              </li>
+              <li class="flex items-center gap-2.5 text-slate-400 dark:text-slate-500 pt-2 border-t border-slate-150 dark:border-slate-850">
+                <span class="text-sm">📌</span>
+                <span class="text-xs font-semibold">Ads Budget Separate</span>
+              </li>
+            </ul>
+          </div>
+
+          <button (click)="nextStep()" 
+                  class="w-full py-3.5 bg-primary-500 hover:bg-primary-600 text-white rounded-xl font-bold transition shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2">
+            આગળ વધો
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- Step 7: Limited Trial Slots Available -->
+        <div *ngIf="currentStep === 7" class="space-y-6">
+          <div class="space-y-2 text-center">
+            <span class="text-5xl block animate-pulse mb-3">🔥</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">Limited Trial Slots Available</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm font-semibold">Interested છો?</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <button (click)="selectTrialInterested('YES')" 
+                    class="py-6 rounded-2xl border-2 flex flex-col items-center justify-center gap-2.5 transition-all font-bold text-base duration-200 hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.trialInterested === 'YES' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span class="text-3xl">✅</span>
+              <span>YES</span>
+            </button>
+            <button (click)="selectTrialInterested('NO')" 
+                    class="py-6 rounded-2xl border-2 flex flex-col items-center justify-center gap-2.5 transition-all font-bold text-base duration-200 hover:border-primary-500 hover:bg-primary-50/5 dark:hover:bg-primary-500/5"
+                    [ngClass]="answers.trialInterested === 'NO' ? 'border-primary-500 bg-primary-500/5 text-primary-600 dark:text-primary-400' : 'border-slate-200 dark:border-slate-850 text-slate-700 dark:text-slate-300'">
+              <span class="text-3xl">❌</span>
+              <span>NO</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 8: Call Time & Phone Number Picker -->
+        <div *ngIf="currentStep === 8" class="space-y-6 animate-slide-up">
+          <div class="space-y-2">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white leading-snug font-heading">5 મિનિટની Free Business Growth Call માટે વિગત જણાવો.</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-xs font-medium">તમે કયા સમયે ફોન પર વાત કરવા માટે ઉપલબ્ધ છો?</p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- WhatsApp Input -->
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">તમારો મોબાઇલ નંબર (WhatsApp Number)</label>
+              <input type="tel" [(ngModel)]="answers.phoneNumber" name="phoneNumber" placeholder="મોબાઇલ નંબર લખો (ઉદા. 9876543210)" 
+                     class="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-850 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all font-medium">
+            </div>
+
+            <!-- Date/Time Picker Panel -->
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">કૉલ માટેનો અનુકૂળ સમય</label>
+              
+              <!-- Selection Feedback Banner -->
+              <div class="p-3 bg-primary-50 dark:bg-primary-950/30 rounded-xl border border-primary-100 dark:border-primary-900/50 text-center font-bold text-xs text-primary-600 dark:text-primary-400">
+                પસંદ કરેલ સમય: {{ displayCallTime }}
+              </div>
+
+              <!-- Calendar & Time Picker Container -->
+              <div class="flex flex-col md:flex-row gap-4 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white dark:bg-slate-900/50 shadow-inner">
+                
+                <!-- Left panel: Calendar -->
+                <div class="flex-1">
+                  <!-- Header navigation -->
+                  <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                    <span class="font-bold text-xs text-slate-700 dark:text-slate-300">{{ months[pickerDate.getMonth()] }} {{ pickerDate.getFullYear() }}</span>
+                    <div class="flex gap-1">
+                      <button type="button" (click)="prevMonth()" class="p-1 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-850 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                      </button>
+                      <button type="button" (click)="nextMonth()" class="p-1 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-850 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Weekdays -->
+                  <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-extrabold uppercase tracking-wider text-slate-400 py-2">
+                    <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                  </div>
+
+                  <!-- Days grid -->
+                  <div class="grid grid-cols-7 gap-1 text-center">
+                    <div *ngFor="let cell of calendarDays">
+                      <button *ngIf="cell.day" type="button" (click)="selectDay(cell.day)"
+                              [ngClass]="{
+                                'bg-primary-500 text-white font-bold shadow-md shadow-primary-500/10': cell.isSelected,
+                                'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300': !cell.isSelected,
+                                'border border-primary-500 text-primary-500': cell.isToday && !cell.isSelected
+                              }"
+                              class="w-7 h-7 rounded-lg text-[11px] flex items-center justify-center transition-all mx-auto">
+                        {{ cell.day }}
+                      </button>
+                      <div *ngIf="!cell.day" class="w-7 h-7"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Divider line -->
+                <div class="hidden md:block w-[1px] bg-slate-200 dark:bg-slate-800 self-stretch"></div>
+
+                <!-- Right panel: Time Scroll -->
+                <div class="flex gap-2 h-[135px]">
+                  
+                  <!-- Hours -->
+                  <div class="w-12 flex flex-col overflow-y-auto border-r border-slate-100 dark:border-slate-800 pr-1 select-none scrollbar-thin">
+                    <div class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400 text-center pb-1 sticky top-0 bg-white dark:bg-slate-900/50">Hour</div>
+                    <button *ngFor="let hour of hoursList" type="button" (click)="selectHour(hour)"
+                            [ngClass]="{
+                              'bg-primary-500 text-white font-bold': selectedHour === hour,
+                              'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300': selectedHour !== hour
+                            }"
+                            class="py-1 px-1.5 text-xs rounded-md text-center transition-all mb-1 shrink-0">
+                      {{ hour }}
+                    </button>
+                  </div>
+
+                  <!-- Minutes -->
+                  <div class="w-12 flex flex-col overflow-y-auto border-r border-slate-100 dark:border-slate-800 pr-1 select-none scrollbar-thin">
+                    <div class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400 text-center pb-1 sticky top-0 bg-white dark:bg-slate-900/50">Min</div>
+                    <button *ngFor="let minute of minutesList" type="button" (click)="selectMinute(minute)"
+                            [ngClass]="{
+                              'bg-primary-500 text-white font-bold': selectedMinute === minute,
+                              'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300': selectedMinute !== minute
+                            }"
+                            class="py-1 px-1.5 text-xs rounded-md text-center transition-all mb-1 shrink-0">
+                      {{ minute }}
+                    </button>
+                  </div>
+
+                  <!-- Period -->
+                  <div class="w-12 flex flex-col gap-1 pr-1 select-none justify-center">
+                    <div class="text-[9px] font-extrabold uppercase tracking-wider text-slate-400 text-center pb-1">AM/PM</div>
+                    <button type="button" (click)="selectPeriod('AM')"
+                            [ngClass]="{
+                              'bg-primary-500 text-white font-bold': selectedPeriod === 'AM',
+                              'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300': selectedPeriod !== 'AM'
+                            }"
+                            class="py-1.5 px-2 text-[10px] font-bold rounded-md text-center transition-all shrink-0">
+                      AM
+                    </button>
+                    <button type="button" (click)="selectPeriod('PM')"
+                            [ngClass]="{
+                              'bg-primary-500 text-white font-bold': selectedPeriod === 'PM',
+                              'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300': selectedPeriod !== 'PM'
+                            }"
+                            class="py-1.5 px-2 text-[10px] font-bold rounded-md text-center transition-all shrink-0">
+                      PM
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <button (click)="submitForm()" [disabled]="!answers.callTime || !answers.phoneNumber.trim() || isSubmitting" 
+                  class="w-full py-3.5 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 disabled:pointer-events-none text-white rounded-xl font-bold transition shadow-lg shadow-primary-500/20 flex items-center justify-center gap-2">
+            <span *ngIf="!isSubmitting" class="flex items-center gap-2">
+              સબમિટ કરો
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
+            <span *ngIf="isSubmitting" class="flex items-center gap-2">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              સબમિટ થઈ રહ્યું છે...
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  googleSheetWebhookUrl: 'https://script.google.com/macros/s/AKfycbxR0l_PwsQwyVbnoshgdgGDlJ_HePMPHbKeCQOkjir2hFY8T36wQCLs7vKgXkBQ3WIzlA/exec'
 };
 
 /*

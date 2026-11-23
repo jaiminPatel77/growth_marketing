@@ -1,0 +1,100 @@
+<footer class="site-footer" role="contentinfo" aria-label="Site footer">
+  <!-- Prominent Top CTA Banner -->
+  <div class="footer-cta-container container">
+    <div class="footer-cta-card">
+      <div class="footer-cta-glow" aria-hidden="true"></div>
+      <div class="footer-cta-text">
+        <span class="footer-kicker">LET’S GROW TOGETHER</span>
+        <h2 class="footer-cta-title">Let's Grow Your Business Together.</h2>
+        <p class="footer-cta-desc">
+          From creative marketing to professional websites, let's build something that moves your business forward.
+        </p>
+      </div>
+      <div class="footer-cta-action">
+        <a routerLink="/" fragment="contact" class="button button-primary button-lg footer-cta-btn">
+          <span>Get Free Consultation</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Four Main Footer Columns -->
+  <div class="footer-body container">
+    <div class="footer-grid">
+      <!-- 1. Brand Area -->
+      <div class="footer-col footer-col-brand">
+        <a class="footer-logo-badge" routerLink="/" aria-label="Growth Marketing Agency Home">
+          <img
+            src="assets/images/growth-logo.png"
+            alt="Growth Marketing Agency logo"
+            width="170"
+            height="64"
+            loading="lazy"
+          />
+        </a>
+        <p class="footer-tagline">Creative thinking. Clear strategy. Meaningful growth.</p>
+        <div class="footer-brand-pill">
+          <span class="orange">✦</span>
+          <span>Strategy · Creativity · Growth</span>
+        </div>
+      </div>
+
+      <!-- 2. Quick Links -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/about">About Us</a></li>
+          <li><a routerLink="/services">Services</a></li>
+          <li><a routerLink="/blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- 3. Our Services -->
+      <div class="footer-col">
+        <h3 class="footer-heading">Our Services</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/services" fragment="social-media">Social Media Marketing</a></li>
+          <li><a routerLink="/services" fragment="meta-ads">Meta Ads</a></li>
+          <li><a routerLink="/services" fragment="video-reels">Video & Reels Production</a></li>
+          <li><a routerLink="/services" fragment="creative-design">Creative Design</a></li>
+          <li><a routerLink="/services" fragment="website-development">Company Website Development</a></li>
+        </ul>
+      </div>
+
+      <!-- 4. Connect With Us -->
+      <div class="footer-col footer-col-connect">
+        <h3 class="footer-heading">Connect With Us</h3>
+        <p class="footer-connect-desc">
+          Have a project in mind or want to explore how purposeful marketing can grow your business? Prepare an enquiry or reach out today.
+        </p>
+        <a routerLink="/" fragment="contact" class="button button-primary footer-connect-btn">
+          <span>Start a Conversation</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Strip -->
+  <div class="footer-bottom-wrap">
+    <div class="container footer-bottom">
+      <div class="footer-copyright">
+        <span>© {{ currentYear }} Growth Marketing Agency. All rights reserved.</span>
+      </div>
+      <div class="footer-bottom-right">
+        <span class="footer-ambition">Made for ambitious brands <span class="orange">✦</span></span>
+        <button
+          type="button"
+          class="back-to-top-btn"
+          (click)="scrollToTop()"
+          aria-label="Back to top of page"
+        >
+          <span>Back to Top</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"></use></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>

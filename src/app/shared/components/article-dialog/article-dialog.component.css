@@ -1,0 +1,195 @@
+.article-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(4, 26, 34, 0.58);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.article-dialog-modal {
+  width: min(720px, calc(100% - 30px));
+  max-height: min(85vh, 900px);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border-radius: 26px;
+  box-shadow: 0 28px 80px rgba(4, 26, 34, 0.22), 0 2px 8px rgba(4, 26, 34, 0.04), inset 0 1px 0 #ffffff;
+  overflow-y: auto;
+  color: var(--ink);
+  position: relative;
+  isolation: isolate;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.article-dialog-modal::before {
+  content: "";
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #fa701b, #ff903a, #0e7689);
+  display: block;
+  z-index: 5;
+}
+
+.dialog-close {
+  position: sticky;
+  float: right;
+  top: 16px;
+  right: 16px;
+  margin: 16px 16px -52px 0;
+  z-index: 6;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.dialog-close:hover {
+  background: #ffffff;
+  border-color: var(--orange);
+  transform: scale(1.06);
+}
+
+.dialog-close .icon {
+  width: 19px;
+  height: 19px;
+}
+
+.article-detail-inner {
+  padding: 35px 44px 48px;
+}
+
+.article-detail-inner .blog-thumb {
+  border-radius: 16px;
+  height: 210px;
+  margin-bottom: 24px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.article-detail-inner .blog-thumb:before,
+.article-detail-inner .blog-thumb:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.article-detail-inner .blog-thumb:before {
+  width: 220px;
+  height: 220px;
+  border: 28px solid rgba(255, 255, 255, 0.12);
+  right: -60px;
+  top: -95px;
+}
+
+.article-detail-inner .blog-thumb:after {
+  width: 190px;
+  height: 190px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  left: -60px;
+  bottom: -110px;
+}
+
+.article-detail-inner .blog-thumb .icon {
+  width: 84px;
+  height: 84px;
+  color: white;
+  stroke-width: 1.25;
+  filter: drop-shadow(0 9px 11px rgba(0, 0, 0, 0.12));
+}
+
+.blog-thumb.orange { background: linear-gradient(145deg, #ffb265, #f16b1c); }
+.blog-thumb.teal   { background: linear-gradient(145deg, #1d7880, #092d3b); }
+.blog-thumb.gold   { background: linear-gradient(145deg, #ffd380, #ff9d44); }
+.blog-thumb.navy   { background: linear-gradient(145deg, #2c5267, #061d2e); }
+.blog-thumb.coral  { background: linear-gradient(145deg, #fe997a, #f06f52); }
+.blog-thumb.mint   { background: linear-gradient(145deg, #66b6af, #0d6a6d); }
+
+.blog-card-category {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 850;
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: var(--orange-dark);
+  background: #fff0e5;
+  margin-bottom: 12px;
+}
+
+.article-detail-inner h2 {
+  font-size: clamp(30px, 3.3vw, 45px);
+  margin: 18px 0;
+  color: var(--ink);
+}
+
+.article-lead {
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 24px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.article-detail-inner h3 {
+  font-size: 19px;
+  margin: 28px 0 10px;
+  color: var(--ink);
+}
+
+.article-detail-inner p {
+  font-size: 15px;
+  line-height: 1.9;
+  margin: 0 0 18px;
+  color: var(--ink-muted);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 570px) {
+  .article-detail-inner {
+    padding: 25px 22px 28px;
+  }
+  .article-detail-inner .blog-thumb {
+    height: 150px;
+  }
+  .article-detail-inner h2 {
+    font-size: 30px;
+  }
+}
+

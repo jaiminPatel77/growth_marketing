@@ -1,0 +1,103 @@
+<!-- Centered Hero -->
+<section class="inner-hero simple-hero blog-hero">
+  <app-wave-canvas></app-wave-canvas>
+  <div class="container centered-hero">
+    <span class="eyebrow"><span class="eyebrow-line"></span> THE GROWTH JOURNAL</span>
+    <h1>Ideas to make <span>your brand grow.</span></h1>
+    <p>Clear, useful thoughts on marketing, creativity, social media, and everything in between.</p>
+  </div>
+</section>
+
+<!-- Blog Section -->
+<section class="section">
+  <div class="container">
+    <div class="blog-toolbar">
+      <div>
+        <span class="section-kicker">LATEST INSIGHTS</span>
+        <h2>Explore the <span>Blog.</span></h2>
+      </div>
+
+      <label class="search-field">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        <input
+          id="blog-search"
+          type="search"
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          placeholder="Search articles..."
+          aria-label="Search blog posts"
+        />
+      </label>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="filters" id="blog-filters" aria-label="Blog categories">
+      @for (cat of categories; track cat) {
+        <button
+          type="button"
+          class="filter-pill"
+          [class.is-active]="activeCategory() === cat"
+          [attr.aria-pressed]="activeCategory() === cat"
+          (click)="setCategory(cat)"
+        >
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- Blog Posts Grid -->
+    @if (filteredPosts().length > 0) {
+      <div class="blog-grid blog-full-grid" id="blog-grid">
+        @for (post of filteredPosts(); track post.id) {
+          <button
+            type="button"
+            class="blog-card reveal in-view"
+            appGlassTilt
+            [attr.aria-label]="'Read article: ' + post.title"
+            (click)="openArticle(post)"
+          >
+            <div class="blog-thumb" [class]="post.color">
+              <svg class="icon" aria-hidden="true">
+                <use [attr.href]="'#i-' + post.icon"></use>
+              </svg>
+            </div>
+            <div class="blog-card-body">
+              <span class="blog-card-category">{{ post.category }}</span>
+              <h3>{{ post.title }}</h3>
+              <p>{{ post.excerpt }}</p>
+              <span class="blog-read">
+                Read Article
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+              </span>
+            </div>
+          </button>
+        }
+      </div>
+    } @else {
+      <p class="empty-state" id="blog-empty">No articles match your search. Try another term.</p>
+    }
+
+    <p class="blog-note">These are sample articles for the initial website. Google Sheets publishing can be connected later.</p>
+  </div>
+</section>
+
+<!-- Bottom CTA Block -->
+<section class="cta-block container" aria-labelledby="cta-heading">
+  <div class="cta-glow" aria-hidden="true"></div>
+  <div>
+    <span class="section-kicker on-dark">LET’S GROW TOGETHER</span>
+    <h2 id="cta-heading">Have a story worth sharing?</h2>
+    <p>Tell us about your business and let’s explore what great marketing could do for you.</p>
+  </div>
+  <a routerLink="/" fragment="contact" class="button button-light">
+    Let’s Talk
+    <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+  </a>
+</section>
+
+<!-- Article Reader Modal Dialog -->
+<app-article-dialog
+  [post]="selectedArticle()"
+  (closeDialog)="closeArticle()"
+></app-article-dialog>
+

@@ -1,0 +1,143 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.93);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(6, 40, 53, 0.06);
+}
+
+.nav-shell {
+  min-height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  flex: none;
+  width: 198px;
+  max-height: 74px;
+  overflow: hidden;
+}
+
+.brand img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 31px;
+  margin: auto;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 750;
+  position: relative;
+  padding: 12px 1px;
+  white-space: nowrap;
+  transition: color 0.2s;
+  color: var(--ink);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--orange);
+  transition: width 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--orange);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  width: 100%;
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  padding: 9px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .nav-shell {
+    gap: 13px;
+  }
+  .desktop-nav {
+    gap: 21px;
+  }
+  .brand {
+    width: 167px;
+  }
+}
+
+@media (max-width: 780px) {
+  .nav-shell {
+    min-height: 74px;
+  }
+  .brand {
+    width: 162px;
+  }
+  .desktop-nav,
+  .header-cta {
+    display: none;
+  }
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+  }
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 18px 25px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 25px rgba(4, 31, 39, 0.1);
+  }
+  .mobile-menu[hidden] {
+    display: none;
+  }
+  .mobile-menu .nav-link {
+    padding: 12px 8px;
+    font-size: 15px;
+  }
+  .mobile-menu .nav-link::after {
+    display: none;
+  }
+  .mobile-cta {
+    margin-top: 10px;
+  }
+}
+

@@ -1,0 +1,45 @@
+@if (isOpen) {
+  <div
+    class="modal-backdrop"
+    (click)="handleBackdropClick($event)"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="video-modal-title"
+  >
+    <div class="video-modal-content">
+      <div class="video-modal-header">
+        <h3 id="video-modal-title">
+          <svg class="icon modal-star" aria-hidden="true"><use href="#i-spark"></use></svg>
+          Welcome to Growth Marketing Agency
+        </h3>
+        <button
+          #closeBtn
+          type="button"
+          class="dialog-close-btn"
+          aria-label="Close welcome video"
+          (click)="handleClose()"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
+        </button>
+      </div>
+
+      <div class="video-player-frame">
+        <video
+          #videoPlayer
+          src="assets/media/mascot-welcome-video.mp4"
+          controls
+          playsinline
+          preload="metadata"
+          aria-label="Growth Marketing Agency welcome video featuring mascot"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div class="video-modal-footer">
+        <p>A personal welcome from our agency team. Ready to grow your business?</p>
+      </div>
+    </div>
+  </div>
+}
+

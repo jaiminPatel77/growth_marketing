@@ -1,0 +1,76 @@
+@if (isActive()) {
+  <aside
+    class="welcome-intro-overlay"
+    [class.fading-out]="isFadingOut()"
+    role="dialog"
+    aria-label="Welcome video introduction"
+    aria-modal="true"
+  >
+    <!-- Branded Initial Loading Surface: Uses matching gray background to prevent white flash -->
+    @if (!isVideoReady()) {
+      <div class="loading-surface">
+        <div class="loading-card">
+          <img
+            src="assets/images/growth-logo.png"
+            alt="Growth Marketing Agency"
+            class="intro-brand-logo"
+            width="170"
+            height="64"
+          />
+        </div>
+        <div class="loading-pulse" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    }
+
+    <!-- Main Foreground Stage: Centered vertically and horizontally across all devices -->
+    <main class="video-stage">
+      <video
+        #primaryVideo
+        class="primary-intro-video"
+        [class.ready]="isVideoReady()"
+        src="assets/media/mascot-welcome-video.mp4"
+        playsinline
+        preload="auto"
+        [loop]="false"
+        (loadeddata)="onVideoReady()"
+        (canplay)="onVideoReady()"
+        (ended)="onVideoEnded()"
+        (error)="onVideoError($event)"
+        aria-label="Welcome video introduction featuring Growth Marketing mascot"
+      >
+        Your browser does not support the video tag.
+      </video>
+    </main>
+
+    <!-- Accessible Controls Toolbar (Mute/Unmute/Enable Sound & Skip Intro) -->
+    <nav class="intro-controls-bar" aria-label="Welcome introduction controls">
+      <button
+        type="button"
+        class="sound-toggle-btn"
+        [class.attention]="audioAutoplayBlocked()"
+        (click)="toggleSound()"
+        [attr.aria-label]="audioAriaLabel()"
+        [attr.title]="audioButtonLabel()"
+      >
+        <svg class="icon" aria-hidden="true">
+          <use [attr.href]="isAudible() ? '#i-volume' : '#i-volume-x'"></use>
+        </svg>
+        <span class="sound-label">{{ audioButtonLabel() }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="skip-intro-btn"
+        (click)="skipIntro()"
+        aria-label="Skip welcome introduction"
+      >
+        <span>Skip Intro</span>
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+      </button>
+    </nav>
+  </aside>
+}

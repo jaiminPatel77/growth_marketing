@@ -1,0 +1,53 @@
+<header class="site-header" id="top">
+  <div class="container nav-shell">
+    <a class="brand" routerLink="/" (click)="closeMenu()" aria-label="Growth Marketing Agency Home">
+      <img src="assets/images/growth-logo.png" width="202" height="76" alt="Growth marketing agency logo" />
+    </a>
+
+    <!-- Desktop Navigation: ONLY Home, About Us, Services, Blog -->
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Home</a>
+      <a routerLink="/about" routerLinkActive="is-active" class="nav-link">About Us</a>
+      <a routerLink="/services" routerLinkActive="is-active" class="nav-link">Services</a>
+      <a routerLink="/blog" routerLinkActive="is-active" class="nav-link">Blog</a>
+    </nav>
+
+    <!-- Header CTA -->
+    <a routerLink="/" fragment="contact" class="button button-primary header-cta">
+      Get Free Consultation
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+    </a>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button
+      class="menu-toggle"
+      type="button"
+      [attr.aria-label]="isMenuOpen() ? 'Close menu' : 'Open menu'"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-controls="mobile-menu"
+      (click)="toggleMenu()"
+    >
+      <svg class="icon" aria-hidden="true">
+        <use [attr.href]="isMenuOpen() ? '#i-close' : '#i-menu'"></use>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <nav
+    class="mobile-menu"
+    id="mobile-menu"
+    aria-label="Mobile navigation"
+    [hidden]="!isMenuOpen()"
+  >
+    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link" (click)="closeMenu()">Home</a>
+    <a routerLink="/about" routerLinkActive="is-active" class="nav-link" (click)="closeMenu()">About Us</a>
+    <a routerLink="/services" routerLinkActive="is-active" class="nav-link" (click)="closeMenu()">Services</a>
+    <a routerLink="/blog" routerLinkActive="is-active" class="nav-link" (click)="closeMenu()">Blog</a>
+    <a class="button button-primary mobile-cta" routerLink="/" fragment="contact" (click)="closeMenu()">
+      Get Free Consultation
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+    </a>
+  </nav>
+</header>
+

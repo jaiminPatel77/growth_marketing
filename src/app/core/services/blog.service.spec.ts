@@ -1,43 +1,36 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { BlogPost } from '../models/blog.model';
 import { BlogService } from './blog.service';
 
+const post: BlogPost = {
+  id: '1', slug: 'marketing-ideas', title: 'Marketing Ideas', excerpt: 'An introduction',
+  content: 'This article contains a section about Reels.', category: 'Marketing', color: 'orange',
+  icon: 'chart', featured: true, author: 'Jane Doe', publishedAt: '2026-11-21T00:00:00.000Z',
+  coverImageUrl: '', metaTitle: 'Marketing Ideas', metaDescription: ''
+};
+
 describe('BlogService', () => {
-  let service: BlogService;
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [provideHttpClient(), provideHttpClientTesting()]
+  }));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(BlogService);
+  afterEach(() => TestBed.inject(HttpTestingController).verify());
+
+  it('requests the published list and a detail by slug', () => {
+    const service = TestBed.inject(BlogService);
+    const http = TestBed.inject(HttpTestingController);
+    service.list().subscribe(posts => expect(posts).toEqual([post]));
+    http.expectOne('/api/blogs').flush([post]);
+    service.getArticle(post.slug).subscribe(article => expect(article).toEqual(post));
+    http.expectOne('/api/blogs?slug=marketing-ideas').flush(post);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should load initial sample blog posts', () => {
-    const posts = service.posts();
-    expect(posts.length).toBeGreaterThan(0);
-  });
-
-  it('should return featured posts with limit', () => {
-    const featured = service.getFeaturedPosts(3);
-    expect(featured.length).toBe(3);
-  });
-
-  it('should filter posts by category', () => {
-    const marketingPosts = service.filterPosts('Marketing', '');
-    expect(marketingPosts.every(p => p.category === 'Marketing')).toBe(true);
-  });
-
-  it('should filter posts by search query', () => {
-    const searchResult = service.filterPosts('All', 'reels');
-    expect(searchResult.length).toBeGreaterThan(0);
-    expect(searchResult[0].title.toLowerCase()).toContain('video');
-  });
-
-  it('should find post by id', () => {
-    const post = service.getPostById('5-marketing-ideas');
-    expect(post).toBeDefined();
-    expect(post?.title).toBe('5 Practical Marketing Ideas for Growing Businesses');
+  it('combines category and full article search', () => {
+    const service = TestBed.inject(BlogService);
+    expect(service.filterPosts([post], 'Marketing', '  REELS  ')).toEqual([post]);
+    expect(service.filterPosts([post], 'Creative', 'reels')).toEqual([]);
+    expect(service.filterPosts([post], 'All', 'missing')).toEqual([]);
   });
 });
-

@@ -18,18 +18,21 @@
 
       <div class="article-detail-inner">
         <div class="blog-thumb" [class]="post.color">
-          <svg class="icon" aria-hidden="true">
-            <use [attr.href]="'#i-' + post.icon"></use>
-          </svg>
+          @if (post.coverImageUrl) {
+            <img class="blog-cover" [src]="post.coverImageUrl" alt="" decoding="async" />
+          } @else {
+            <svg class="icon" aria-hidden="true"><use [attr.href]="'#i-' + post.icon"></use></svg>
+          }
         </div>
         <span class="blog-card-category">{{ post.category }}</span>
         <h2>{{ post.title }}</h2>
         <p class="article-lead">{{ post.excerpt }}</p>
 
-        @for (section of post.sections; track section.heading) {
-          <h3>{{ section.heading }}</h3>
-          <p>{{ section.paragraph }}</p>
-        }
+        <p class="blog-byline">
+          @if (post.author) { <span>{{ post.author }} &middot; </span> }
+          <time [attr.datetime]="post.publishedAt">{{ post.publishedAt | date:"mediumDate":"UTC" }}</time>
+        </p>
+        <p class="article-content">{{ post.content }}</p>
       </div>
     </div>
   </div>

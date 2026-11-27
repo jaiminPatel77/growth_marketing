@@ -193,3 +193,12 @@
   }
 }
 
+
+.article-content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.article-detail-inner .blog-cover {
+  object-fit: contain;
+}

@@ -5,19 +5,23 @@ import {
   Inject,
   PLATFORM_ID,
   ElementRef,
+  DestroyRef,
+  computed,
   inject,
   signal,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { WaveCanvasComponent } from '../../shared/components/wave-canvas/wave-canvas.component';
-import { ArticleDialogComponent } from '../../shared/components/article-dialog/article-dialog.component';
 import { GlassTiltDirective } from '../../shared/directives/glass-tilt.directive';
 import { BlogService } from '../../core/services/blog.service';
 import { ToastService } from '../../core/services/toast.service';
 import { SeoService } from '../../core/services/seo.service';
+import { EnquiryService } from '../../core/services/enquiry.service';
 import { BlogPost } from '../../core/models/blog.model';
 
 @Component({
@@ -27,7 +31,7 @@ import { BlogPost } from '../../core/models/blog.model';
     RouterLink,
     ReactiveFormsModule,
     WaveCanvasComponent,
-    ArticleDialogComponent,
+    DatePipe,
     GlassTiltDirective
   ],
   templateUrl: './home.component.html',
@@ -36,21 +40,32 @@ import { BlogPost } from '../../core/models/blog.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly enquiryService = inject(EnquiryService);
+  private readonly posts = signal<BlogPost[]>([]);
   private readonly blogService = inject(BlogService);
   private readonly toastService = inject(ToastService);
   private readonly seoService = inject(SeoService);
   private readonly elementRef = inject(ElementRef);
   private readonly isBrowser: boolean;
 
-  readonly featuredPosts = signal<BlogPost[]>([]);
-  readonly selectedArticle = signal<BlogPost | null>(null);
-  readonly isSubmitting = signal<boolean>(false);
+  readonly featuredPosts = computed(() => {
+    const posts = this.posts();
+    return [...posts.filter(post => post.featured), ...posts.filter(post => !post.featured)].slice(0, 3);
+  });
+  readonly blogLoading = signal(true);
+  readonly blogError = signal(false);
+  readonly isSubmitting = signal(false);
 
-  readonly inquiryForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(100)]],
-    business: ['', [Validators.required, Validators.maxLength(100)]],
+  readonly inquiryForm = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(100)]],
+    phone: ['', [Validators.required, Validators.maxLength(25),
+      Validators.pattern(/^\+?(?=(?:\D*\d){7,15}\D*$)[\d ().-]+$/)]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/), Validators.maxLength(254)]],
+    business: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(100)]],
     service: ['Social Media Marketing', Validators.required],
-    message: ['', [Validators.required, Validators.maxLength(1000)]]
+    message: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(1000)]],
+    website: ['']
   });
 
   private intersectionObserver?: IntersectionObserver;
@@ -65,66 +80,57 @@ export class HomeComponent implements OnInit, OnDestroy {
       'Digital marketing, Meta Ads, social media, reels and creative design for your growing business.'
     );
 
-    this.featuredPosts.set(this.blogService.getFeaturedPosts(3));
+    this.blogService.list().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: posts => {
+        this.posts.set(posts);
+        this.blogLoading.set(false);
+      },
+      error: () => {
+        this.blogError.set(true);
+        this.blogLoading.set(false);
+      }
+    });
 
     if (this.isBrowser) {
       this.setupScrollReveal();
     }
   }
 
-  openArticle(post: BlogPost): void {
-    this.selectedArticle.set(post);
-  }
-
-  closeArticle(): void {
-    this.selectedArticle.set(null);
-  }
-
-  async copyEnquiry(): Promise<void> {
+  submitEnquiry(): void {
+    if (this.isSubmitting()) return;
     if (this.inquiryForm.invalid) {
       this.inquiryForm.markAllAsTouched();
-      this.toastService.show('Please fill in all required enquiry fields.');
+      this.toastService.show('Please check the required enquiry fields.');
       return;
     }
 
-    const { name, business, service, message } = this.inquiryForm.value;
-    const enquiryText = `Growth Marketing Agency — Website enquiry\nName: ${name}\nBusiness: ${business}\nService: ${service}\nMessage: ${message}`;
-
+    const enquiry = this.inquiryForm.getRawValue();
     this.isSubmitting.set(true);
-    try {
-      if (navigator?.clipboard?.writeText) {
-        await navigator.clipboard.writeText(enquiryText);
-        this.toastService.show('Enquiry copied. You can paste it into a message.');
-      } else {
-        this.copyFallback(enquiryText);
-      }
-    } catch {
-      this.copyFallback(enquiryText);
-    } finally {
+    this.inquiryForm.disable();
+    const finish = () => {
+      this.inquiryForm.enable();
       this.isSubmitting.set(false);
-    }
-  }
+    };
 
-  private copyFallback(text: string): void {
-    try {
-      const tempArea = document.createElement('textarea');
-      tempArea.value = text;
-      tempArea.style.position = 'fixed';
-      tempArea.style.opacity = '0';
-      document.body.appendChild(tempArea);
-      tempArea.focus();
-      tempArea.select();
-      const success = document.execCommand('copy');
-      document.body.removeChild(tempArea);
-
-      if (success) {
-        this.toastService.show('Enquiry copied. You can paste it into a message.');
-      } else {
-        this.toastService.show('Copy is unavailable in this browser.');
+    this.enquiryService.submit(enquiry).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: response => {
+        finish();
+        if (response?.success !== true) {
+          this.toastService.show('We could not confirm your enquiry. Please try again.');
+          return;
+        }
+        this.inquiryForm.reset();
+        this.toastService.show('Thanks! Your enquiry has been sent.');
+      },
+      error: (error: unknown) => {
+        finish();
+        const status = error instanceof HttpErrorResponse ? error.status : 0;
+        const message = status === 429 ? 'Too many attempts. Please wait before trying again.'
+          : status === 400 ? 'Please check the required enquiry fields.'
+          : 'We could not confirm your enquiry. Please try again.';
+        this.toastService.show(message);
       }
-    } catch {
-      this.toastService.show('Copy is unavailable in this browser.');
-    }
+    });
   }
 
   private setupScrollReveal(): void {

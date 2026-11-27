@@ -202,30 +202,44 @@
       </a>
     </div>
 
+    @if (blogLoading()) {
+      <p role="status">Loading articles&hellip;</p>
+    } @else if (blogError()) {
+      <p role="status">Articles are temporarily unavailable.</p>
+    } @else if (!featuredPosts().length) {
+      <p>No articles have been published yet.</p>
+    }
     <div class="blog-grid" id="home-blog-grid">
-      @for (post of featuredPosts(); track post.id) {
-        <button
-          type="button"
+      @for (post of featuredPosts(); track post.slug) {
+        <a
           class="blog-card reveal in-view"
           appGlassTilt
           [attr.aria-label]="'Read article: ' + post.title"
-          (click)="openArticle(post)"
+          routerLink="/blog" [queryParams]="{ article: post.slug }"
         >
           <div class="blog-thumb" [class]="post.color">
-            <svg class="icon" aria-hidden="true">
-              <use [attr.href]="'#i-' + post.icon"></use>
-            </svg>
+            @if (post.coverImageUrl) {
+              <img class="blog-cover" [src]="post.coverImageUrl" alt="" loading="lazy" decoding="async" />
+            } @else {
+              <svg class="icon" aria-hidden="true">
+                <use [attr.href]="'#i-' + post.icon"></use>
+              </svg>
+            }
           </div>
           <div class="blog-card-body">
             <span class="blog-card-category">{{ post.category }}</span>
             <h3>{{ post.title }}</h3>
             <p>{{ post.excerpt }}</p>
+            <p class="blog-byline">
+              @if (post.author) { <span>{{ post.author }} &middot; </span> }
+              <time [attr.datetime]="post.publishedAt">{{ post.publishedAt | date:"mediumDate":"UTC" }}</time>
+            </p>
             <span class="blog-read">
               Read Article
               <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
             </span>
           </div>
-        </button>
+        </a>
       }
     </div>
   </div>
@@ -237,14 +251,10 @@
     <div class="contact-content">
       <span class="section-kicker">START A CONVERSATION</span>
       <h2 id="contact-title">Tell us about your <span>big idea.</span></h2>
-      <p>We’d love to hear what you’re building. Prepare a quick enquiry below, and we’ll help you take the next step.</p>
-      <div class="contact-tip">
-        <svg class="icon" aria-hidden="true"><use href="#i-spark"></use></svg>
-        <span>Contact delivery will be connected before the website goes live. For now, you can copy your enquiry.</span>
-      </div>
+      <p>Share a few details about your business and what you need help with.</p>
     </div>
 
-    <form [formGroup]="inquiryForm" (ngSubmit)="copyEnquiry()" class="inquiry-form" id="inquiry-form">
+    <form [formGroup]="inquiryForm" (ngSubmit)="submitEnquiry()" class="inquiry-form" id="inquiry-form">
       <div class="form-row">
         <label>
           Your name
@@ -270,6 +280,29 @@
           @if (inquiryForm.get('business')?.invalid && inquiryForm.get('business')?.touched) {
             <span class="error-msg">Please enter your business name.</span>
           }
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>
+          Phone number
+          <input type="tel" formControlName="phone" autocomplete="tel" maxlength="25" required />
+          @if (inquiryForm.controls.phone.invalid && inquiryForm.controls.phone.touched) {
+            <span class="error-msg">Please enter a valid phone number.</span>
+          }
+        </label>
+        <label>
+          Email address
+          <input type="email" formControlName="email" autocomplete="email" maxlength="254" required />
+          @if (inquiryForm.controls.email.invalid && inquiryForm.controls.email.touched) {
+            <span class="error-msg">Please enter a valid email address.</span>
+          }
+        </label>
+      </div>
+
+      <div hidden>
+        <label>Leave this field empty
+          <input formControlName="website" autocomplete="off" tabindex="-1" />
         </label>
       </div>
 
@@ -300,17 +333,9 @@
       </label>
 
       <button type="submit" class="button button-primary button-block" [disabled]="isSubmitting()">
-        Copy My Enquiry
-        <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+        {{ isSubmitting() ? "Sending enquiry..." : "Send My Enquiry" }}
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
       </button>
-
-      <p class="form-footnote">This demo does not send or store enquiries.</p>
     </form>
   </div>
 </section>
-
-<!-- Article Reader Modal Dialog -->
-<app-article-dialog
-  [post]="selectedArticle()"
-  (closeDialog)="closeArticle()"
-></app-article-dialog>

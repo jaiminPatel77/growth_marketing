@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -11,6 +12,7 @@ import { BlogPost } from '../../../core/models/blog.model';
 @Component({
   selector: 'app-article-dialog',
   standalone: true,
+  imports: [DatePipe],
   templateUrl: './article-dialog.component.html',
   styleUrl: './article-dialog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

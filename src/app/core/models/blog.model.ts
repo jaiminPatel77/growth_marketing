@@ -1,18 +1,19 @@
-export interface BlogSection {
-  heading: string;
-  paragraph: string;
-}
-
-export type BlogCategory = 'Marketing' | 'Social Media' | 'Creative';
-export type BlogColor = 'orange' | 'teal' | 'gold' | 'navy' | 'coral' | 'mint';
-
-export interface BlogPost {
+export interface BlogSummary {
   id: string;
-  category: BlogCategory;
-  color: BlogColor;
+  slug: string;
+  category: string;
+  color: string;
   icon: string;
   title: string;
   excerpt: string;
-  sections: BlogSection[];
+  coverImageUrl: string;
+  author: string;
+  publishedAt: string;
+  featured: boolean;
+  metaTitle: string;
+  metaDescription: string;
 }
 
+export interface BlogPost extends BlogSummary {
+  content: string;
+}

@@ -32,13 +32,13 @@
 
     <!-- Category Filters -->
     <div class="filters" id="blog-filters" aria-label="Blog categories">
-      @for (cat of categories; track cat) {
+      @for (cat of categories(); track cat) {
         <button
           type="button"
           class="filter-pill"
           [class.is-active]="activeCategory() === cat"
           [attr.aria-pressed]="activeCategory() === cat"
-          (click)="setCategory(cat)"
+          (click)="activeCategory.set(cat)"
         >
           {{ cat }}
         </button>
@@ -46,38 +46,55 @@
     </div>
 
     <!-- Blog Posts Grid -->
-    @if (filteredPosts().length > 0) {
+    @if (articleLoading()) {
+      <p class="empty-state" role="status">Loading article&hellip;</p>
+    } @else if (articleError()) {
+      <p class="empty-state" role="alert">{{ articleError() }}</p>
+    }
+
+    @if (loading()) {
+      <p class="empty-state" role="status">Loading articles&hellip;</p>
+    } @else if (loadError()) {
+      <p class="empty-state" role="alert">Articles are temporarily unavailable.</p>
+      <button class="filter-pill" type="button" (click)="loadPosts()">Try again</button>
+    } @else if (filteredPosts().length > 0) {
       <div class="blog-grid blog-full-grid" id="blog-grid">
-        @for (post of filteredPosts(); track post.id) {
-          <button
-            type="button"
+        @for (post of filteredPosts(); track post.slug) {
+          <a
             class="blog-card reveal in-view"
             appGlassTilt
             [attr.aria-label]="'Read article: ' + post.title"
-            (click)="openArticle(post)"
+            routerLink="/blog" [queryParams]="{ article: post.slug }"
           >
             <div class="blog-thumb" [class]="post.color">
-              <svg class="icon" aria-hidden="true">
-                <use [attr.href]="'#i-' + post.icon"></use>
-              </svg>
+              @if (post.coverImageUrl) {
+                <img class="blog-cover" [src]="post.coverImageUrl" alt="" loading="lazy" decoding="async" />
+              } @else {
+                <svg class="icon" aria-hidden="true">
+                  <use [attr.href]="'#i-' + post.icon"></use>
+                </svg>
+              }
             </div>
             <div class="blog-card-body">
               <span class="blog-card-category">{{ post.category }}</span>
               <h3>{{ post.title }}</h3>
               <p>{{ post.excerpt }}</p>
+              <p class="blog-byline">
+                @if (post.author) { <span>{{ post.author }} &middot; </span> }
+                <time [attr.datetime]="post.publishedAt">{{ post.publishedAt | date:"mediumDate":"UTC" }}</time>
+              </p>
               <span class="blog-read">
                 Read Article
                 <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
               </span>
             </div>
-          </button>
+          </a>
         }
       </div>
     } @else {
-      <p class="empty-state" id="blog-empty">No articles match your search. Try another term.</p>
+      <p class="empty-state" id="blog-empty">{{ searchQuery().trim() || activeCategory() !== "All" ? "No articles match your filters." : "No articles have been published yet." }}</p>
     }
 
-    <p class="blog-note">These are sample articles for the initial website. Google Sheets publishing can be connected later.</p>
   </div>
 </section>
 

@@ -1,13 +1,11 @@
+import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
-  Component,
-  OnInit,
-  inject,
-  signal,
-  computed,
-  ChangeDetectionStrategy
+  Component, DestroyRef, OnInit, inject, signal, computed, ChangeDetectionStrategy
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { WaveCanvasComponent } from '../../shared/components/wave-canvas/wave-canvas.component';
 import { ArticleDialogComponent } from '../../shared/components/article-dialog/article-dialog.component';
 import { GlassTiltDirective } from '../../shared/directives/glass-tilt.directive';
@@ -18,49 +16,86 @@ import { BlogPost } from '../../core/models/blog.model';
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, FormsModule, WaveCanvasComponent, ArticleDialogComponent, GlassTiltDirective],
+  imports: [RouterLink, DatePipe, WaveCanvasComponent, ArticleDialogComponent, GlassTiltDirective],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlogComponent implements OnInit {
   private readonly blogService = inject(BlogService);
-  private readonly seoService = inject(SeoService);
+  private readonly seo = inject(SeoService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly posts = signal<BlogPost[]>([]);
 
-  readonly categories = ['All', 'Marketing', 'Social Media', 'Creative'] as const;
-  readonly activeCategory = signal<string>('All');
-  readonly searchQuery = signal<string>('');
-  readonly selectedArticle = signal<BlogPost | null>(null);
-
-  readonly filteredPosts = computed<BlogPost[]>(() => {
-    return this.blogService.filterPosts(
-      this.activeCategory(),
-      this.searchQuery()
-    );
+  readonly categories = computed(() => {
+    const categories = new Set(this.posts().map(post => post.category));
+    categories.delete('All');
+    return ['All', ...[...categories].sort((a, b) => a.localeCompare(b))];
   });
+  readonly activeCategory = signal('All');
+  readonly searchQuery = signal('');
+  readonly selectedArticle = signal<BlogPost | null>(null);
+  readonly loading = signal(true);
+  readonly loadError = signal(false);
+  readonly articleLoading = signal(false);
+  readonly articleError = signal('');
+  readonly filteredPosts = computed(() => this.blogService.filterPosts(
+    this.posts(), this.activeCategory(), this.searchQuery()
+  ));
 
   ngOnInit(): void {
-    this.seoService.setPageMeta(
-      'Blog | Growth Marketing Agency',
-      'Marketing insights, social media tips, and creative ideas from Growth Marketing Agency.'
-    );
+    this.loadPosts();
+    this.route.queryParamMap.pipe(
+      map(params => params.get('article')),
+      distinctUntilChanged(),
+      switchMap(slug => {
+        this.selectedArticle.set(null);
+        this.articleError.set('');
+        this.articleLoading.set(slug !== null);
+        this.seo.setPageMeta('Blog | Growth Marketing Agency',
+          'Marketing insights, social media tips, and creative ideas from Growth Marketing Agency.');
+        return slug === null ? of(null) : this.blogService.getArticle(slug).pipe(
+          catchError(error => {
+            this.articleError.set(error instanceof HttpErrorResponse && [400, 404].includes(error.status)
+              ? 'This article is unavailable.' : 'The article could not be loaded. Please try again.');
+            return of(null);
+          })
+        );
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(post => {
+      this.articleLoading.set(false);
+      this.selectedArticle.set(post);
+      if (post) this.seo.setPageMeta(post.metaTitle || `${post.title} | Growth Marketing Agency`,
+        post.metaDescription || post.excerpt);
+    });
   }
 
-  setCategory(cat: string): void {
-    this.activeCategory.set(cat);
+  loadPosts(): void {
+    this.loading.set(true);
+    this.loadError.set(false);
+    this.blogService.list().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: posts => {
+        this.posts.set(posts);
+        if (!this.categories().includes(this.activeCategory())) this.activeCategory.set('All');
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loadError.set(true);
+        this.loading.set(false);
+      }
+    });
   }
 
   onSearchInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.searchQuery.set(input.value);
-  }
-
-  openArticle(post: BlogPost): void {
-    this.selectedArticle.set(post);
+    this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
   closeArticle(): void {
-    this.selectedArticle.set(null);
+    void this.router.navigate([], {
+      relativeTo: this.route, queryParams: { article: null }, queryParamsHandling: 'merge', replaceUrl: true
+    });
   }
 }
-

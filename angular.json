@@ -22,6 +22,10 @@
               {
                 "glob": "**/*",
                 "input": "public"
+                "input": "public",
+                "ignore": [
+                  "**/*.zip"
+                ]
               }
             ],
             "styles": [
